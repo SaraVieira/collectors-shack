@@ -24,7 +24,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TRPCReactProvider>{children}</TRPCReactProvider>{" "}
+          <TRPCReactProvider>
+            <div className="container mx-auto my-12">{children}</div>
+          </TRPCReactProvider>{" "}
         </ThemeProvider>
       </body>
     </html>

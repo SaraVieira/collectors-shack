@@ -14,61 +14,388 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+enum Consoles {
+    p3do
+    ags
+    amiga
+    amiga1200
+    amiga600
+    amigacd32
+    amstradcpc
+    apple2
+    apple2gs
+    atari2600
+    atari5200
+    atari7800
+    atari800
+    atarijaguar
+    atarilynx
+    atarist
+    atarixe
+    bbcmicro
+    c64
+    colecovision
+    dos
+    dreamcast
+    famicom
+    fba
+    fbneo
+    fds
+    gameandwatch
+    gamecom
+    gamegear
+    gb
+    gba
+    gbc
+    gc
+    genesis
+    gx4000
+    intellivision
+    mastersystem
+    megacd
+    megacdjp
+    megadrive
+    megaduck
+    msx
+    msx1
+    msx2
+    msxturbor
+    multivision
+    n3ds
+    n64
+    n64dd
+    naomi
+    naomi2
+    naomigd
+    nds
+    neogeo
+    neogeocd
+    neogeocdjp
+    nes
+    ngage
+    ngp
+    ngpc
+    odyssey2
+    pc88
+    pc98
+    pcengine
+    pcenginecd
+    pcfx
+    pokemini
+    ps2
+    ps3
+    ps4
+    psp
+    psvita
+    psx
+    saturn
+    scv
+    sega32x
+    segacd
+    sfc
+    sg1000
+    sgb
+    snes
+    solarus
+    spectravideo
+    supergrafx
+    supervision
+    supracan
+    switch
+    tg16
+    tgcd
+    vectrex
+    virtualboy
+    wii
+    wiiu
+    windows
+    wonderswan
+    wonderswancolor
+    x1
+    x68000
+    xbox
+    xbox360
+    zmachine
+    zx81
+    zxnext
+    zxspectrum
+}
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+enum Region {
+    PAL
+    NTSC
+    NTSCJ
+}
+
+enum Conditions {
+    BOXED
+    WITH_BOX
+    LOOSE
+    BAD
+    NOT_WORKING
+}
+
+model Console {
+    id            Int        @id @default(autoincrement())
+    name          String
+    console       Consoles
+    price         Json?
+    region        Region
+    igdb_id       Int?
+    units         Int
+    purchasePrice Float?
+    purchaseDate  DateTime?
+    condition     Conditions
+
+    // FIX WHEN I SEE WHAT DATA I GET FROM IGDB
+    info Json?
 
     @@index([name])
 }
 
-// Necessary for Next auth
-model Account {
-    id                       String  @id @default(cuid())
-    userId                   String
-    type                     String
-    provider                 String
-    providerAccountId        String
-    refresh_token            String? // @db.Text
-    access_token             String? // @db.Text
-    expires_at               Int?
-    token_type               String?
-    scope                    String?
-    id_token                 String? // @db.Text
-    session_state            String?
-    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    refresh_token_expires_in Int?
-
-    @@unique([provider, providerAccountId])
+model GameAgeRatings {
+    id         Int       @id @default(autoincrement())
+    category   Int?
+    rating     Int?
+    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId Int?
 }
 
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model GameAlternativeNames {
+    id      Int     @id @default(autoincrement())
+    game    Int
+    name    String?
+    comment String?
+
+    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId Int?
 }
 
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+model GameFranchises {
+    id         Int     @id @default(autoincrement())
+    created_at Int?
+    games      Int[]
+    name       String?
+    slug       String?
+    updated_at Int?
+    url        String?
+
+    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId Int?
 }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+model GameModes {
+    id         Int     @id @default(autoincrement())
+    created_at Int?
+    slug       String?
+    updated_at Int?
+    name       String?
+    url        String?
 
-    @@unique([identifier, token])
+    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId Int?
 }
+
+model GameGenres {
+    id         Int     @id @default(autoincrement())
+    created_at Int?
+    slug       String?
+    updated_at Int?
+    name       String?
+    url        String?
+
+    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId Int?
+}
+
+model GameInvolvedCompanies {
+    id         Int     @id @default(autoincrement())
+    company    Int?
+    created_at Int?
+    developer  Boolean
+    game       Int?
+    porting    Boolean
+    publisher  Boolean
+    supporting Boolean
+    updated_at Int?
+
+    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId Int?
+}
+
+model GamePlatforms {
+    id               Int       @id @default(autoincrement())
+    abbreviation     String?
+    alternative_name String?
+    category         Int?
+    created_at       Int?
+    generation       Int?
+    name             String?
+    platform_logo    Int?
+    platform_family  Int?
+    slug             String?
+    updated_at       Int?
+    url              String?
+    versions         Int[]
+    GameInfo         GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId       Int?
+}
+
+model GameReleaseDates {
+    id         Int     @id @default(autoincrement())
+    category   Int?
+    created_at Int?
+    date       Int?
+    game       Int?
+    human      String?
+    m          Int?
+    platform   Int?
+    region     Int?
+    updated_at Int?
+    y          Int?
+    status     Int?
+
+    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId Int?
+}
+
+model GameScreenShots {
+    id Int @id @default(autoincrement())
+
+    image_id   String?
+    game       Int?
+    height     Int?
+    url        String?
+    width      Int?
+    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId Int?
+}
+
+model GameThemes {
+    id         Int       @id @default(autoincrement())
+    created_at Int?
+    updated_at Int?
+    name       String
+    slug       String
+    url        String?
+    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId Int?
+}
+
+model GameVideos {
+    id         Int       @id @default(autoincrement())
+    game       Int
+    name       String?
+    video_id   String?
+    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId Int?
+}
+
+model GameWebsites {
+    id         Int       @id @default(autoincrement())
+    category   Int?
+    game       Int?
+    trusted    Boolean
+    url        String?
+    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId Int?
+}
+
+model GameInfo {
+    id                      Int                     @id @default(autoincrement())
+    websites                GameWebsites[]
+    videos                  GameVideos[]
+    themes                  GameThemes[]
+    screenshots             GameScreenShots[]
+    game_modes              GameModes[]
+    age_ratings             GameAgeRatings[]
+    alternative_names       GameAlternativeNames[]
+    franchises              GameFranchises[]
+    genres                  GameGenres[]
+    involved_companies      GameInvolvedCompanies[]
+    platforms               GamePlatforms[]
+    release_dates           GameReleaseDates[]
+    category                Int?
+    name                    String?
+    cover                   Int?
+    created_at              Int?
+    first_release_date      Int?
+    aggregated_rating       Int?
+    aggregated_rating_count Int?
+    rating                  Int?
+    rating_count            Int?
+    slug                    String?
+    storyline               String?
+    summary                 String?
+    total_rating            Int?
+    total_rating_count      Int?
+    updated_at              Int?
+    url                     String?
+    ports                   Int[]
+    Game                    Game[]
+}
+
+model Game {
+    id                 Int        @id @default(autoincrement())
+    name               String
+    console            Consoles
+    price              Json?
+    region             Region
+    igdb_id            String?
+    price_charting_url String?
+    units              Int
+    purchase_price     Float?
+    purchase_date      DateTime?
+    condition          Conditions
+    info               GameInfo?  @relation(fields: [gameInfoId], references: [id])
+    gameInfoId         Int?
+
+    @@index([name])
+}
+
+// // Necessary for Next auth
+// model Account {
+//     id                       String  @id @default(cuid())
+//     userId                   String
+//     type                     String
+//     provider                 String
+//     providerAccountId        String
+//     refresh_token            String? // @db.Text
+//     access_token             String? // @db.Text
+//     expires_at               Int?
+//     token_type               String?
+//     scope                    String?
+//     id_token                 String? // @db.Text
+//     session_state            String?
+//     user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+//     refresh_token_expires_in Int?
+
+//     @@unique([provider, providerAccountId])
+// }
+
+// model Session {
+//     id           String   @id @default(cuid())
+//     sessionToken String   @unique
+//     userId       String
+//     expires      DateTime
+//     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+// }
+
+// model User {
+//     id            String    @id @default(cuid())
+//     name          String?
+//     email         String?   @unique
+//     emailVerified DateTime?
+//     image         String?
+//     accounts      Account[]
+//     sessions      Session[]
+//     posts         Post[]
+// }
+
+// model VerificationToken {
+//     identifier String
+//     token      String   @unique
+//     expires    DateTime
+
+//     @@unique([identifier, token])
+// }
