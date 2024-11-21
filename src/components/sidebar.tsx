@@ -11,14 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
-import {
-  Calendar,
-  Home,
-  Inbox,
-  PlusIcon,
-  Search,
-  Settings,
-} from "lucide-react";
+import { Calendar, Home, PlusIcon, Search, Settings } from "lucide-react";
 
 const items = [
   {

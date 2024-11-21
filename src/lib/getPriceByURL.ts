@@ -11,19 +11,19 @@ export const getPriceByUrl = async (url?: string) => {
     await fetch("https://api.fxratesapi.com/latest").then((rsp) => rsp.json())
   ).rates;
   const loose = parseFloat(
-    ($("#used_price .price").html() || "").trim().replace("$", ""),
+    ($("#used_price .price").html() ?? "").trim().replace("$", ""),
   );
   const complete = parseFloat(
-    ($("#complete_price .price").html() || "").trim().replace("$", ""),
+    ($("#complete_price .price").html() ?? "").trim().replace("$", ""),
   );
   const newPrice = parseFloat(
-    ($("#new_price .price").html() || "").trim().replace("$", ""),
+    ($("#new_price .price").html() ?? "").trim().replace("$", ""),
   );
   const box = parseFloat(
-    ($("#box_only_price .price").html() || "").trim().replace("$", ""),
+    ($("#box_only_price .price").html() ?? "").trim().replace("$", ""),
   );
   const manual = parseFloat(
-    ($("#manual_only_price .price").html() || "").trim().replace("$", ""),
+    ($("#manual_only_price .price").html() ?? "").trim().replace("$", ""),
   );
   return {
     usd: {

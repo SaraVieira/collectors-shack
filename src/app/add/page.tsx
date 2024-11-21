@@ -84,7 +84,7 @@ export default function Add() {
                 </FormControl>
                 <SelectContent>
                   {Object.keys(Consoles).map((c) => (
-                    <SelectItem value={c}>
+                    <SelectItem value={c} key={c}>
                       {platformsMap[c as keyof typeof platformsMap] || c}
                     </SelectItem>
                   ))}
@@ -108,7 +108,9 @@ export default function Add() {
                 </FormControl>
                 <SelectContent>
                   {Object.keys(Region).map((c) => (
-                    <SelectItem value={c}>{c}</SelectItem>
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -223,7 +225,9 @@ export default function Add() {
                 </FormControl>
                 <SelectContent>
                   {Object.keys(Conditions).map((c) => (
-                    <SelectItem value={c}>{c}</SelectItem>
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
