@@ -4,6 +4,8 @@ import { Game } from "@prisma/client";
 import { Column, ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "~/components/ui/button";
+import { platformsMap } from "~/lib/platforms";
+import { conditionsMap } from "~/lib/utils";
 
 const SortableHeader = ({
   column,
@@ -34,21 +36,42 @@ export const columns: ColumnDef<Game>[] = [
     header: ({ column }) => {
       return <SortableHeader column={column}>Console</SortableHeader>;
     },
+    cell: ({ row }) => {
+      return (
+        platformsMap[row.getValue("console") as keyof typeof platformsMap] ||
+        row.getValue("console")
+      );
+    },
   },
   {
     id: "price",
-    accessorKey: "price.gbp.loose",
+    accessorKey: "price.gbp",
     header: ({ column }) => {
       return <SortableHeader column={column}>Price</SortableHeader>;
     },
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("price"));
+      const amount = parseFloat(
+        (row.getValue("price") as any)[
+          (row.getValue("condition") as string).toLocaleLowerCase()
+        ],
+      );
       const formatted = new Intl.NumberFormat("en-UK", {
         style: "currency",
         currency: "GBP",
       }).format(amount);
 
       return formatted;
+    },
+  },
+  {
+    accessorKey: "condition",
+    header: ({ column }) => {
+      return <SortableHeader column={column}>Confition</SortableHeader>;
+    },
+    cell: ({ row }) => {
+      return conditionsMap[
+        row.getValue("condition") as keyof typeof conditionsMap
+      ];
     },
   },
   {

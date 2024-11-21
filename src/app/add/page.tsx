@@ -33,6 +33,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "~/components/ui/calendar";
 import { format } from "date-fns";
 import { api } from "~/trpc/react";
+import { platformsMap } from "~/lib/platforms";
 
 export default function Add() {
   const createGame = api.games.create.useMutation({
@@ -83,7 +84,9 @@ export default function Add() {
                 </FormControl>
                 <SelectContent>
                   {Object.keys(Consoles).map((c) => (
-                    <SelectItem value={c}>{c}</SelectItem>
+                    <SelectItem value={c}>
+                      {platformsMap[c as keyof typeof platformsMap] || c}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>

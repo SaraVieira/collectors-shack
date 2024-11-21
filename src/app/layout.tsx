@@ -7,6 +7,9 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/theme-provider";
 import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
 import { AppSidebar } from "~/components/sidebar";
+import Link from "next/link";
+import { PlusIcon } from "lucide-react";
+import { Button } from "~/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -30,7 +33,14 @@ export default function RootLayout({
             <SidebarProvider defaultOpen={false}>
               <AppSidebar />
               <div className="container mx-auto my-12">
-                <SidebarTrigger />
+                <div className="flex items-center justify-between">
+                  <SidebarTrigger />
+                  <Button>
+                    <Link href={"/add"}>
+                      <PlusIcon />
+                    </Link>
+                  </Button>
+                </div>
                 {children}
               </div>
             </SidebarProvider>

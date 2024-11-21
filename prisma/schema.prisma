@@ -128,8 +128,8 @@ enum Region {
 }
 
 enum Conditions {
-    BOXED
-    WITH_BOX
+    NEW
+    COMPLETE
     LOOSE
     BAD
     NOT_WORKING
@@ -316,6 +316,7 @@ model GameInfo {
     platforms               GamePlatforms[]
     release_dates           GameReleaseDates[]
     category                Int?
+    franchise               Int?
     name                    String?
     cover                   Int?
     created_at              Int?
@@ -332,6 +333,8 @@ model GameInfo {
     updated_at              Int?
     url                     String?
     ports                   Int[]
+    remakes                 Int[]
+    remasters               Int[]
     Game                    Game[]
 }
 

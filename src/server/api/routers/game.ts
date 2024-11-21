@@ -51,6 +51,8 @@ export const gamesRouter = createTRPCRouter({
                   "involved_companies",
                   "platforms",
                   "release_dates",
+                  "storyline",
+                  "id",
                 ]),
                 ...(info.age_ratings && {
                   age_ratings: {

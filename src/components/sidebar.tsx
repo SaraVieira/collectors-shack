@@ -11,18 +11,25 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  Calendar,
+  Home,
+  Inbox,
+  PlusIcon,
+  Search,
+  Settings,
+} from "lucide-react";
 
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Add Game",
+    url: "add",
+    icon: PlusIcon,
   },
   {
     title: "Calendar",
