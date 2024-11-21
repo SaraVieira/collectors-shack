@@ -5,9 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Button } from "~/components/ui/button";
+import { Textarea } from "~/components/ui/textarea";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,6 +36,8 @@ import { Calendar } from "~/components/ui/calendar";
 import { format } from "date-fns";
 import { api } from "~/trpc/react";
 import { platformsMap } from "~/lib/platforms";
+import { omit } from "lodash-es";
+import Link from "next/link";
 
 export default function Add() {
   const createGame = api.games.create.useMutation({
@@ -52,7 +56,24 @@ export default function Add() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof addGameSchema>) {
-    await createGame.mutateAsync(values);
+    if (values.images) {
+      const formData = new FormData();
+
+      formData.append("file", values.images);
+      const response = await fetch("https://images.salsashack.co.uk", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+      await createGame.mutateAsync({
+        ...omit(values, ["images"]),
+        images: [`https://images.salsashack.co.uk/${result.filename}`],
+      });
+    }
+
+    await createGame.mutateAsync({
+      ...omit(values, ["images"]),
+    });
   }
   return (
     <Form {...form}>
@@ -125,9 +146,18 @@ export default function Add() {
             <FormItem>
               <FormLabel>IGDB ID</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input type="number" {...field} />
               </FormControl>
               <FormMessage />
+              <FormDescription>
+                <Link
+                  href="https://www.igdb.com"
+                  target="_blank"
+                  className="underline"
+                >
+                  Open IGDB
+                </Link>
+              </FormDescription>
             </FormItem>
           )}
         />
@@ -154,6 +184,16 @@ export default function Add() {
                 <Input {...field} />
               </FormControl>
               <FormMessage />
+              <FormDescription>
+                <Link
+                  href="https://www.pricecharting.com/"
+                  target="_blank"
+                  className="underline"
+                >
+                  Open Price Charting
+                </Link>{" "}
+                and copy the url after <code>pricecharting.com/game/</code>
+              </FormDescription>
             </FormItem>
           )}
         />
@@ -231,6 +271,43 @@ export default function Add() {
                   ))}
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="images"
+          render={({ field: { value, onChange, ...field } }) => {
+            return (
+              <FormItem>
+                <FormLabel>Photos</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    value={value?.fileName}
+                    onChange={(event) => {
+                      onChange(event.target.files?.[0]);
+                    }}
+                    type="file"
+                    id="images"
+                    accept="image/png, image/jpeg"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+        <FormField
+          control={form.control}
+          name="comments"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Comments</FormLabel>
+              <FormControl>
+                <Textarea {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

@@ -11,4 +11,6 @@ export const addGameSchema = z.object({
   purchasePrice: z.optional(z.number()),
   purchaseDate: z.optional(z.date()),
   condition: z.enum(Object.keys(Conditions) as any),
+  images: z.optional(z.any()),
+  comments: z.optional(z.string()),
 });

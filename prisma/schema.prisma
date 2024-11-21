@@ -335,7 +335,8 @@ model GameInfo {
     ports                   Int[]
     remakes                 Int[]
     remasters               Int[]
-    Game                    Game[]
+
+    Game Game[]
 }
 
 model Game {
@@ -352,6 +353,8 @@ model Game {
     condition          Conditions
     info               GameInfo?  @relation(fields: [gameInfoId], references: [id])
     gameInfoId         Int?
+    photos             String[]
+    comments           String?
 
     @@index([name])
 }

@@ -18,10 +18,11 @@ export const gamesRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const prices = await getPriceByUrl(input.priceChartingUrl);
       const info = await getGame(input.idgbId);
-
       return ctx.db.game.create({
         data: {
+          comments: input.comments,
           name: input.name,
+          photos: input.images,
           condition: input.condition,
           console: input.console,
           region: input.region,
