@@ -5,6 +5,8 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/theme-provider";
+import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
+import { AppSidebar } from "~/components/sidebar";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -25,8 +27,14 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TRPCReactProvider>
-            <div className="container mx-auto my-12">{children}</div>
-          </TRPCReactProvider>{" "}
+            <SidebarProvider defaultOpen={false}>
+              <AppSidebar />
+              <div className="container mx-auto my-12">
+                <SidebarTrigger />
+                {children}
+              </div>
+            </SidebarProvider>
+          </TRPCReactProvider>
         </ThemeProvider>
       </body>
     </html>

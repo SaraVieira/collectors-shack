@@ -1,4 +1,4 @@
-import { gamesRouter } from "~/server/api/routers/post";
+import { gamesRouter } from "~/server/api/routers/game";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { priceRouter } from "./routers/price";
 

@@ -1,19 +1,14 @@
-import Link from "next/link";
-
-import { LatestPost } from "~/app/_components/post";
-import { Button } from "~/components/ui/button";
+import { DataTable } from "~/components/tables/index/table";
+import { columns } from "~/components/tables/index/columns";
 import { api, HydrateClient } from "~/trpc/server";
 
 export default async function Home() {
-  const price = await api.prices.getPricesForGame({
-    url: "pal-gameboy/tintin-prisoners-of-the-sun",
-  });
+  const games = await api.games.getGames();
 
   return (
     <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center text-white">
-        <Button>sup</Button>
-        {JSON.stringify(price, null, 2)}
+      <main className="flex min-h-screen flex-col items-center text-white">
+        <DataTable columns={columns} data={games} />
       </main>
     </HydrateClient>
   );
