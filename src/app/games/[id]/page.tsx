@@ -2,7 +2,7 @@ import React from "react";
 import { platformsMap } from "~/lib/platforms";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
-import { Edit, Link2, Trash } from "lucide-react";
+import { Edit, Link2 } from "lucide-react";
 import { api, HydrateClient } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { conditionsMap, CurrencyType, Price } from "~/lib/utils";

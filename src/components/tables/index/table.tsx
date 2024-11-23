@@ -37,7 +37,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
-  const { push } = useRouter();
+  const router = useRouter();
   const table = useReactTable({
     data,
     columns,
@@ -92,7 +92,7 @@ export function DataTable<TData, TValue>({
                   className="cursor-pointer"
                   data-state={row.getIsSelected() && "selected"}
                   onClick={() => {
-                    push(`/games/${(row.original as Game).id}`);
+                    router.push(`/games/${(row.original as Game).id}`);
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (

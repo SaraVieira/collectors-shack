@@ -41,9 +41,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Add() {
-  const { push } = useRouter();
+  const router = useRouter();
   const createGame = api.games.create.useMutation({
-    onSuccess: async (data) => push(`/games/${data.id}`),
+    onSuccess: async (data) => router.push(`/games/${data.id}`),
   });
   const form = useForm<z.infer<typeof addGameSchema>>({
     resolver: zodResolver(addGameSchema),
@@ -54,7 +54,6 @@ export default function Add() {
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof addGameSchema>) {
     if (values.images) {
       const formData = new FormData();

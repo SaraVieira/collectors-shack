@@ -42,11 +42,11 @@ import { useRouter } from "next/navigation";
 import { use, useEffect } from "react";
 
 export default function Edit({ params }: { params: Promise<{ id: string }> }) {
-  const { push } = useRouter();
+  const router = useRouter();
   const { id } = use(params) as { id: string };
   const { data: game } = api.games.single.useQuery({ id });
   const createGame = api.games.create.useMutation({
-    onSuccess: async (data) => push(`/games/${data.id}`),
+    onSuccess: async (data) => router.push(`/games/${data.id}`),
   });
   const form = useForm<z.infer<typeof addGameSchema>>({
     resolver: zodResolver(addGameSchema),
@@ -71,16 +71,18 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
         name: game.name,
         console: game.console,
         region: game.region,
-        idgbId: game.igdb_id as string,
-        priceChartingUrl: game.price_charting_url as string,
+        idgbId: game.igdb_id!,
+        priceChartingUrl: game.price_charting_url!,
         units: game.units,
-        purchasePrice: game.purchase_price as number,
-        purchaseDate: game.purchase_date as Date,
+        purchasePrice: game.purchase_price!,
+        purchaseDate: game.purchase_date!,
         condition: game.condition,
         images: game.photos,
         comments: game.comments ?? "",
       });
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game]);
 
   async function onSubmit(values: z.infer<typeof addGameSchema>) {

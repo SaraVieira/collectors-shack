@@ -4,14 +4,14 @@ import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 export const DeleteButton = ({ id }: { id: string }) => {
-  const { push } = useRouter();
+  const router = useRouter();
   const createGame = api.games.delete.useMutation({
-    onSuccess: async (data) => push(`/`),
+    onSuccess: () => router.push(`/`),
   });
 
-  const deleteGame = () => {
+  const deleteGame = async () => {
     if (window.confirm("You sure?")) {
-      createGame.mutateAsync({ id });
+      await createGame.mutateAsync({ id });
     }
   };
 

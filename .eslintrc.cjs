@@ -19,6 +19,7 @@ const config = {
     "@typescript-eslint/consistent-type-imports": ["off"],
     "@typescript-eslint/no-unsafe-argument": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "off",
+    "@next/next/no-img-element": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
