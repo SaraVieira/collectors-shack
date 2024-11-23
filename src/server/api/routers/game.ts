@@ -3,15 +3,25 @@ import { addGameSchema } from "~/lib/schemas";
 import { getGame } from "~/lib/idgb_api";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { omit } from "lodash-es";
+import { z } from "zod";
 
 export const gamesRouter = createTRPCRouter({
-  // hello: publicProcedure
-  //   .input(z.object({ text: z.string() }))
-  //   .query(({ input }) => {
-  //     return {
-  //       greeting: `Hello ${input.text}`,
-  //     };
-  //   }),
+  single: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ input, ctx }) => {
+      return ctx.db.game.findUnique({
+        include: {
+          info: {
+            include: {
+              screenshots: true,
+            },
+          },
+        },
+        where: {
+          id: parseInt(input.id),
+        },
+      });
+    }),
 
   create: publicProcedure
     .input(addGameSchema)

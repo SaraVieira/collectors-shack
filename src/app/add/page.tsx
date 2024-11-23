@@ -38,12 +38,12 @@ import { api } from "~/trpc/react";
 import { platformsMap } from "~/lib/platforms";
 import { omit } from "lodash-es";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Add() {
+  const { push } = useRouter();
   const createGame = api.games.create.useMutation({
-    onSuccess: async (data) => {
-      console.log(data);
-    },
+    onSuccess: async (data) => push(`/games/${data.id}`),
   });
   const form = useForm<z.infer<typeof addGameSchema>>({
     resolver: zodResolver(addGameSchema),

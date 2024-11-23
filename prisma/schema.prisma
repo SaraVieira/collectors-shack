@@ -318,7 +318,7 @@ model GameInfo {
     category                Int?
     franchise               Int?
     name                    String?
-    cover                   Int?
+    cover                   String?
     created_at              Int?
     first_release_date      Int?
     aggregated_rating       Int?

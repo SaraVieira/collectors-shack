@@ -21,6 +21,8 @@ import {
   TableRow,
 } from "../../ui/table";
 import { Input } from "~/components/ui/input";
+import { useRouter } from "next/navigation";
+import { Game } from "@prisma/client";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -35,6 +37,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
+  const { push } = useRouter();
   const table = useReactTable({
     data,
     columns,
@@ -86,7 +89,11 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
+                  className="cursor-pointer"
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => {
+                    push(`/games/${(row.original as Game).id}`);
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

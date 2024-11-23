@@ -12,3 +12,16 @@ export const conditionsMap = {
   BAD: "Bad",
   NOT_WORKING: "Not Working",
 };
+
+export type CurrencyType = {
+  loose: number;
+  complete: number;
+  new: number;
+  box: number;
+  manual: number;
+};
+export type Price = {
+  usd: CurrencyType;
+  gbp: CurrencyType;
+  eur: CurrencyType;
+};

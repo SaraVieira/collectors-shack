@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "GameInfo" ALTER COLUMN "cover" SET DATA TYPE TEXT;

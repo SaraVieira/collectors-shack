@@ -37,14 +37,31 @@ export const getGame = async (id?: string) => {
     url: "https://api.igdb.com/v4/games/",
     body: `
     fields *, age_ratings.*, platforms.*, game_modes.*, genres.*, franchises.*, involved_companies.*, ports.*, screenshots.*, release_dates.*, alternative_names.*, themes.*, videos.*, websites.*;
-    exclude player_perspectives,bundles, language_supports, multiplayer_modes, collections, external_games, similar_games, tags, game_localizations, checksum, age_ratings.checksum, alternative_names.checksum, franchises.checksum, game_modes.checksum, genres.checksum, involved_companies.checksum, keywords, platforms.checksum, release_dates.checksum, videos.checksum, websites.checksum, screenshots.checksum, themes.checksum, id, platforms.websites, artworks, game_engines, age_ratings.content_descriptions, age_ratings.synopsis, hypes, screenshots.alpha_channel; 
+    exclude player_perspectives,bundles, language_supports, multiplayer_modes, collections, external_games, similar_games, tags, game_localizations, checksum, age_ratings.checksum, alternative_names.checksum, franchises.checksum, game_modes.checksum, genres.checksum, involved_companies.checksum, keywords, platforms.checksum, release_dates.checksum, videos.checksum, websites.checksum, screenshots.checksum, themes.checksum, id, platforms.websites, artworks, game_engines, age_ratings.content_descriptions, age_ratings.synopsis, hypes, screenshots.alpha_channel, screenshots.animated; 
     where id = ${id};
     `,
   }).then((rsp) => rsp.json());
+
+  // @ts-ignore
+  const cover = await fetch({
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Client-ID": env.IGDB_ID,
+      Authorization: `Bearer ${access_token}`,
+    },
+    url: "https://api.igdb.com/v4/covers/",
+    body: `
+    fields image_id; 
+    where game = ${id};
+    `,
+  }).then((rsp) => rsp.json());
+
   return {
     ...info[0],
     ports: info[0].ports?.map((a: any) => a.id),
     remakes: info[0].remakes || [],
     remasters: info[0].remasters || [],
+    cover: cover[0].image_id,
   };
 };
