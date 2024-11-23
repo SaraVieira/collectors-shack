@@ -38,11 +38,16 @@ import { api } from "~/trpc/react";
 import { platformsMap } from "~/lib/platforms";
 import { omit } from "lodash-es";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { use, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export default function Edit({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
+  const session = useSession();
+  if (!session?.data?.user) {
+    redirect("/api/auth/signin");
+  }
   const { id } = use(params) as { id: string };
   const { data: game } = api.games.single.useQuery({ id });
   const createGame = api.games.create.useMutation({

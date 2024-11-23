@@ -38,9 +38,10 @@ import { api } from "~/trpc/react";
 import { platformsMap } from "~/lib/platforms";
 import { omit } from "lodash-es";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
+import { redirect, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 export default function Add() {
+  const session = useSession();
   const router = useRouter();
   const createGame = api.games.create.useMutation({
     onSuccess: async (data) => router.push(`/games/${data.id}`),
@@ -53,6 +54,9 @@ export default function Add() {
       condition: Conditions.LOOSE,
     },
   });
+  if (!session?.data?.user) {
+    redirect("/api/auth/signin");
+  }
 
   async function onSubmit(values: z.infer<typeof addGameSchema>) {
     if (values.images) {

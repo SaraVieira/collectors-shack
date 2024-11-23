@@ -10,6 +10,7 @@ import { AppSidebar } from "~/components/sidebar";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
 import { Button } from "~/components/ui/button";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Salsa's Shack Inventory",
@@ -28,20 +29,22 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TRPCReactProvider>
-            <SidebarProvider defaultOpen={false}>
-              <AppSidebar />
-              <div className="container mx-auto my-12">
-                <div className="flex items-center justify-between">
-                  <SidebarTrigger />
-                  <Button>
-                    <Link href={"/add"}>
-                      <PlusIcon />
-                    </Link>
-                  </Button>
+            <SessionProvider>
+              <SidebarProvider defaultOpen={false}>
+                <AppSidebar />
+                <div className="container mx-auto my-12">
+                  <div className="flex items-center justify-between">
+                    <SidebarTrigger />
+                    <Button>
+                      <Link href={"/add"}>
+                        <PlusIcon />
+                      </Link>
+                    </Button>
+                  </div>
+                  {children}
                 </div>
-                {children}
-              </div>
-            </SidebarProvider>
+              </SidebarProvider>
+            </SessionProvider>
           </TRPCReactProvider>
         </ThemeProvider>
       </body>

@@ -8,15 +8,20 @@ import { redirect } from "next/navigation";
 import { conditionsMap, CurrencyType, Price } from "~/lib/utils";
 import Link from "next/link";
 import { DeleteButton } from "./_components/delete";
+import { auth } from "~/server/auth";
 
 export default async function GameInfoPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const session = await auth();
+
   const { id } = await params;
   const game = await api.games.single({ id });
-
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
   if (!game) {
     redirect("/");
   }

@@ -13,7 +13,10 @@ export const env = createEnv({
         : z.string().optional(),
     IGDB_ID: z.string(),
     IGDB_SECRET: z.string(),
+    EMAIL_SERVER: z.string(),
+    EMAIL_FROM: z.string(),
     DATABASE_URL: z.string().url(),
+    EMAILS_ALLOWED: z.string(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -38,6 +41,9 @@ export const env = createEnv({
     IGDB_SECRET: process.env.IGDB_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
+    EMAIL_FROM: process.env.EMAIL_FROM,
+    EMAILS_ALLOWED: process.env.EMAILS_ALLOWED,
+    EMAIL_SERVER: process.env.EMAIL_SERVER,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
