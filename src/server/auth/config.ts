@@ -1,6 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
 import EmailProvider from "next-auth/providers/nodemailer";
+import { env } from "~/env";
 import { db } from "~/server/db";
 
 declare module "next-auth" {
@@ -29,7 +30,7 @@ export const authConfig = {
   adapter: PrismaAdapter(db),
   callbacks: {
     async signIn({ user }) {
-      const emails = ["hey@iamsaravieira.com", "hi@laura.monster"];
+      const emails = JSON.parse(env.EMAILS_ALLOWED);
       if (emails.includes(user.email!)) {
         return true; //if the email exists in the User collection, email them a magic login link
       } else {
