@@ -27,11 +27,13 @@ import { Game } from "@prisma/client";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  total: number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  total,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -54,7 +56,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center justify-between py-4">
         <Input
           placeholder="Filter games..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -63,6 +65,13 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        <div>
+          Inventory value:{" "}
+          {Intl.NumberFormat("en-GB", {
+            style: "currency",
+            currency: "GBP",
+          }).format(total)}
+        </div>
       </div>
       <div className="w-full rounded-md border">
         <Table>

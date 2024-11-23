@@ -4,6 +4,7 @@ import { getGame } from "~/lib/idgb_api";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { omit } from "lodash-es";
 import { z } from "zod";
+import { CurrencyType, Price } from "~/lib/utils";
 
 export const gamesRouter = createTRPCRouter({
   single: publicProcedure
@@ -184,6 +185,18 @@ export const gamesRouter = createTRPCRouter({
       },
     });
 
-    return games ?? [];
+    const total = games
+      .map((game) => ({
+        price: (game.price as Price).gbp[
+          game.condition.toLocaleLowerCase() as keyof CurrencyType
+        ],
+        units: game.units,
+      }))
+      .reduce((acc, curr) => {
+        acc += curr.price * curr.units;
+        return acc;
+      }, 0);
+
+    return { games, total } ?? { games: [] };
   }),
 });

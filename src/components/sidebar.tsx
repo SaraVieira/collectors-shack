@@ -11,7 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
-import { Calendar, Home, PlusIcon, Search, Settings } from "lucide-react";
+import { DollarSign, Home, PlusIcon, ShoppingBag } from "lucide-react";
 
 const items = [
   {
@@ -25,19 +25,14 @@ const items = [
     icon: PlusIcon,
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
+    title: "Purchases",
+    url: "/purchases",
+    icon: DollarSign,
   },
   {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    title: "Wanted Inventory",
+    url: "/wanted",
+    icon: ShoppingBag,
   },
 ];
 
