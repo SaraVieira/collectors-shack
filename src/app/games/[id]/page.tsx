@@ -2,11 +2,12 @@ import React from "react";
 import { platformsMap } from "~/lib/platforms";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
-import { Edit, Link2 } from "lucide-react";
+import { Edit, Link2, Trash } from "lucide-react";
 import { api, HydrateClient } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import { conditionsMap, CurrencyType, Price } from "~/lib/utils";
 import Link from "next/link";
+import { DeleteButton } from "./_components/delete";
 
 export default async function GameInfoPage({
   params,
@@ -26,12 +27,15 @@ export default async function GameInfoPage({
         <div className="container mx-auto px-4 py-8">
           <div className="mb-6 flex items-start justify-between">
             <h1 className="text-4xl font-bold">{game.name}</h1>
-            <Link href={`/games/${id}/edit`}>
-              <Button variant="secondary" size="icon">
-                <Edit className="h-5 w-5" />
-                <span className="sr-only">Edit</span>
-              </Button>
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link href={`/games/${id}/edit`}>
+                <Button variant="secondary" size="icon">
+                  <Edit className="h-5 w-5" />
+                  <span className="sr-only">Edit</span>
+                </Button>
+              </Link>
+              <DeleteButton id={id} />
+            </div>
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">

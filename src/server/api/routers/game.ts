@@ -165,6 +165,17 @@ export const gamesRouter = createTRPCRouter({
         },
       });
     }),
+  delete: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const games = await ctx.db.game.delete({
+        where: {
+          id: parseInt(input.id),
+        },
+      });
+
+      return games ?? [];
+    }),
 
   getGames: publicProcedure.query(async ({ ctx }) => {
     const games = await ctx.db.game.findMany({
