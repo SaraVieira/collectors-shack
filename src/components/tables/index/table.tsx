@@ -27,7 +27,7 @@ import { Game } from "@prisma/client";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  total: number;
+  total?: number;
 }
 
 export function DataTable<TData, TValue>({
@@ -65,13 +65,15 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <div>
-          Inventory value:{" "}
-          {Intl.NumberFormat("en-GB", {
-            style: "currency",
-            currency: "GBP",
-          }).format(total)}
-        </div>
+        {total && (
+          <div>
+            Inventory value:{" "}
+            {Intl.NumberFormat("en-GB", {
+              style: "currency",
+              currency: "GBP",
+            }).format(total)}
+          </div>
+        )}
       </div>
       <div className="w-full rounded-md border">
         <Table>
