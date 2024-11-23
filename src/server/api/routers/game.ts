@@ -197,6 +197,6 @@ export const gamesRouter = createTRPCRouter({
         return acc;
       }, 0);
 
-    return { games, total } ?? { games: [] };
+    return games.length ? { games, total } : { games: [] };
   }),
 });
