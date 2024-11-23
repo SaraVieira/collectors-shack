@@ -26,10 +26,12 @@ export default async function GameInfoPage({
         <div className="container mx-auto px-4 py-8">
           <div className="mb-6 flex items-start justify-between">
             <h1 className="text-4xl font-bold">{game.name}</h1>
-            <Button variant="secondary" size="icon">
-              <Edit className="h-5 w-5" />
-              <span className="sr-only">Edit</span>
-            </Button>
+            <Link href={`/games/${id}/edit`}>
+              <Button variant="secondary" size="icon">
+                <Edit className="h-5 w-5" />
+                <span className="sr-only">Edit</span>
+              </Button>
+            </Link>
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
