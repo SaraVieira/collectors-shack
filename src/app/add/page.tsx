@@ -168,7 +168,13 @@ export default function Add() {
             <FormItem>
               <FormLabel>Units</FormLabel>
               <FormControl>
-                <Input type="number" {...field} />
+                <Input
+                  type="number"
+                  {...field}
+                  onChange={(e) =>
+                    form.setValue("units", parseInt(e.target.value))
+                  }
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -204,7 +210,13 @@ export default function Add() {
             <FormItem>
               <FormLabel>Purchase Price</FormLabel>
               <FormControl>
-                <Input type="number" {...field} />
+                <Input
+                  type="number"
+                  {...field}
+                  onChange={(e) =>
+                    form.setValue("purchasePrice", parseInt(e.target.value))
+                  }
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
