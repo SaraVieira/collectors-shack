@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Purchases" ADD COLUMN     "price_charting_price" JSONB,
+ALTER COLUMN "price" SET DATA TYPE DOUBLE PRECISION,
+ALTER COLUMN "shipping" SET DATA TYPE DOUBLE PRECISION;

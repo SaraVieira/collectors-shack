@@ -20,12 +20,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html
+      lang="en"
+      className={`${GeistSans.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
-          enableSystem
           disableTransitionOnChange
         >
           <TRPCReactProvider>
@@ -36,7 +39,7 @@ export default function RootLayout({
                   <div className="flex items-center justify-between">
                     <SidebarTrigger />
                     <Button>
-                      <Link href={"/add"}>
+                      <Link href={"/games/add"}>
                         <PlusIcon />
                       </Link>
                     </Button>

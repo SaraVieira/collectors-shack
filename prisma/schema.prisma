@@ -361,6 +361,26 @@ model Game {
     @@index([name])
 }
 
+enum ItemType {
+    GAME
+    CONSOLE
+    ACCESSORY
+}
+
+model Purchases {
+    id                   String     @id @default(cuid())
+    link                 String?
+    name                 String
+    price                Float
+    shipping             Float?
+    units                Int
+    price_charting_url   String?
+    condition            Conditions
+    type                 ItemType
+    createdAt            DateTime   @default(now())
+    price_charting_price Json?
+}
+
 // // Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())

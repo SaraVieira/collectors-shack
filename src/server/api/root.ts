@@ -1,6 +1,7 @@
 import { gamesRouter } from "~/server/api/routers/game";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { priceRouter } from "./routers/price";
+import { purchaseRouter } from "./routers/purchase";
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { priceRouter } from "./routers/price";
 export const appRouter = createTRPCRouter({
   games: gamesRouter,
   prices: priceRouter,
+  purchases: purchaseRouter,
 });
 
 // export type definition of API

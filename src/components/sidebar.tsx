@@ -21,7 +21,7 @@ const items = [
   },
   {
     title: "Add Game",
-    url: "add",
+    url: "/games/add",
     icon: PlusIcon,
   },
   {
