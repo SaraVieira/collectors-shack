@@ -55,19 +55,7 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
   });
   const form = useForm<z.infer<typeof addGameSchema>>({
     resolver: zodResolver(addGameSchema),
-    defaultValues: {
-      name: "",
-      console: "",
-      region: "",
-      idgbId: "",
-      priceChartingUrl: "",
-      units: 0,
-      purchasePrice: 0,
-      purchaseDate: new Date(),
-      condition: "",
-      images: "",
-      comments: "",
-    },
+    defaultValues: {},
   });
 
   useEffect(() => {

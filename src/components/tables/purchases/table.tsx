@@ -22,7 +22,6 @@ import {
 } from "../../ui/table";
 import { Input } from "~/components/ui/input";
 import { useRouter } from "next/navigation";
-import { Game } from "@prisma/client";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
