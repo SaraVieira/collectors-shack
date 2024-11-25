@@ -50,6 +50,7 @@ export const columns: ColumnDef<Game>[] = [
       return <SortableHeader column={column}>Price</SortableHeader>;
     },
     cell: ({ row }) => {
+      if (!row.getValue("price")) return null;
       const amount = parseFloat(
         (row.getValue("price") as any)[
           (row.getValue("condition") as string).toLocaleLowerCase()

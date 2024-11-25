@@ -217,7 +217,7 @@ export default function Add() {
                   type="number"
                   {...field}
                   onChange={(e) =>
-                    form.setValue("purchasePrice", parseInt(e.target.value))
+                    form.setValue("purchasePrice", parseFloat(e.target.value))
                   }
                 />
               </FormControl>

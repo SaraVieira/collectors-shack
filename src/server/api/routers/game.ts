@@ -187,9 +187,11 @@ export const gamesRouter = createTRPCRouter({
 
     const total = games
       .map((game) => ({
-        price: (game.price as Price).gbp[
-          game.condition.toLocaleLowerCase() as keyof CurrencyType
-        ],
+        price: game.price
+          ? (game.price as Price).gbp[
+              game.condition.toLocaleLowerCase() as keyof CurrencyType
+            ]
+          : 0,
         units: game.units,
       }))
       .reduce((acc, curr) => {

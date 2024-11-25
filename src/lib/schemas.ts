@@ -2,7 +2,7 @@ import { z } from "zod";
 import { Conditions, Consoles, ItemType, Region } from "@prisma/client";
 
 export const addGameSchema = z.object({
-  name: z.string().min(2).max(50),
+  name: z.string().min(2),
   console: z.nativeEnum(Consoles),
   region: z.nativeEnum(Region),
   idgbId: z.optional(z.string()),
@@ -16,7 +16,7 @@ export const addGameSchema = z.object({
 });
 
 export const addPurchaseSchema = z.object({
-  name: z.string().min(2).max(50),
+  name: z.string().min(2),
   link: z.optional(z.string()),
   price: z.number(),
   shipping: z.optional(z.number()),

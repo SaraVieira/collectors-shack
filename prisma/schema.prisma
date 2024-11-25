@@ -173,7 +173,7 @@ model GameAlternativeNames {
 
 model GameFranchises {
     id         Int     @id @default(autoincrement())
-    created_at Int?
+    created_at BigInt?
     games      Int[]
     name       String?
     slug       String?
@@ -186,7 +186,7 @@ model GameFranchises {
 
 model GameModes {
     id         Int     @id @default(autoincrement())
-    created_at Int?
+    created_at BigInt?
     slug       String?
     updated_at Int?
     name       String?
@@ -198,7 +198,7 @@ model GameModes {
 
 model GameGenres {
     id         Int     @id @default(autoincrement())
-    created_at Int?
+    created_at BigInt?
     slug       String?
     updated_at Int?
     name       String?
@@ -211,7 +211,7 @@ model GameGenres {
 model GameInvolvedCompanies {
     id         Int     @id @default(autoincrement())
     company    Int?
-    created_at Int?
+    created_at BigInt?
     developer  Boolean
     game       Int?
     porting    Boolean
@@ -244,7 +244,7 @@ model GamePlatforms {
 model GameReleaseDates {
     id         Int     @id @default(autoincrement())
     category   Int?
-    created_at Int?
+    created_at BigInt?
     date       Int?
     game       Int?
     human      String?
@@ -273,7 +273,7 @@ model GameScreenShots {
 
 model GameThemes {
     id         Int       @id @default(autoincrement())
-    created_at Int?
+    created_at BigInt?
     updated_at Int?
     name       String
     slug       String
@@ -317,6 +317,7 @@ model GameInfo {
     release_dates           GameReleaseDates[]
     category                Int?
     franchise               Int?
+    parent_game             Int?
     name                    String?
     cover                   String?
     created_at              Int?
