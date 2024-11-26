@@ -96,8 +96,9 @@ export const columns: ColumnDef<Purchases>[] = [
     },
 
     cell: ({ row }) => {
+      if (!row.original.link) return null;
       return (
-        <Link href={row.original.link!} target="_blank">
+        <Link href={row.original.link} target="_blank">
           Open Link
         </Link>
       );

@@ -5,7 +5,7 @@ import { Column, ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { platformsMap } from "~/lib/platforms";
-import { conditionsMap } from "~/lib/utils";
+import { conditionsMap, Price } from "~/lib/utils";
 
 const SortableHeader = ({
   column,
@@ -62,6 +62,23 @@ export const columns: ColumnDef<Game>[] = [
       }).format(amount);
 
       return formatted;
+    },
+    sortingFn: (rowA, rowB, _columnId) => {
+      const priceA =
+        // @ts-ignore
+        (rowA.original.price as Price)?.gbp[
+          (
+            rowA.getValue("condition") as keyof typeof conditionsMap
+          ).toLocaleLowerCase()
+        ] || 0;
+      const priceB =
+        // @ts-ignore
+        (rowB.original.price as Price)?.gbp[
+          (
+            rowB.getValue("condition") as keyof typeof conditionsMap
+          ).toLocaleLowerCase()
+        ] || 0;
+      return priceB - priceA;
     },
   },
   {
