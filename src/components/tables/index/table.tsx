@@ -22,7 +22,16 @@ import {
 } from "../../ui/table";
 import { Input } from "~/components/ui/input";
 import { useRouter } from "next/navigation";
-import { Game } from "@prisma/client";
+import { Consoles, Game } from "@prisma/client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+
+import { platformsMap } from "~/lib/platforms";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -57,14 +66,35 @@ export function DataTable<TData, TValue>({
   return (
     <div className="w-full">
       <div className="flex items-center justify-between py-4">
-        <Input
-          placeholder="Filter games..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <div className="flex gap-4">
+          <Input
+            placeholder="Filter games..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="min-w-[300px] max-w-sm"
+          />
+          <Select
+            onValueChange={(value) =>
+              table
+                .getColumn("console")
+                ?.setFilterValue(value === "all" ? "" : value)
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={"Filter by console"} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All</SelectItem>
+              {Object.keys(Consoles).map((c) => (
+                <SelectItem key={c} value={c}>
+                  {platformsMap[c as keyof typeof platformsMap] || c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         {total && (
           <div>
             Inventory value:{" "}
