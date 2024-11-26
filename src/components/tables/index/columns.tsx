@@ -36,6 +36,9 @@ export const columns: ColumnDef<Game>[] = [
     header: ({ column }) => {
       return <SortableHeader column={column}>Console</SortableHeader>;
     },
+    meta: {
+      filterVariant: "select",
+    },
     cell: ({ row }) => {
       return (
         platformsMap[row.getValue("console") as keyof typeof platformsMap] ||

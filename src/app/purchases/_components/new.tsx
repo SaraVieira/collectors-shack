@@ -4,6 +4,8 @@ import { Conditions, ItemType } from "@prisma/client";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { FormInput } from "~/components/forms/Input";
+import { FormSelect } from "~/components/forms/Select";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -13,23 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Form,
-  FormDescription,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
+import { Form, FormDescription } from "~/components/ui/form";
 import { addPurchaseSchema } from "~/lib/schemas";
 import { api } from "~/trpc/react";
 
@@ -63,168 +49,66 @@ export function NewPurchase() {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Game Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="link"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Link</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
+            <FormInput name="name" label="Game Name" form={form} />
+
+            <FormInput name="link" label="Link" form={form} />
+
+            <FormInput
+              type="number"
+              form={form}
               name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      step="0.01"
-                      min={0}
-                      {...field}
-                      onChange={(e) => {
-                        form.setValue("price", parseFloat(e.target.value));
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Price"
+              onChange={(e) =>
+                form.setValue("price", parseFloat(e.target.value))
+              }
             />
-            <FormField
-              control={form.control}
+
+            <FormInput
+              type="number"
+              form={form}
               name="shipping"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Shipping</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      {...field}
-                      onChange={(e) =>
-                        form.setValue("shipping", parseFloat(e.target.value))
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Shipping"
+              onChange={(e) =>
+                form.setValue("shipping", parseFloat(e.target.value))
+              }
             />
-            <FormField
-              control={form.control}
+
+            <FormSelect
+              form={form}
+              label="Condition"
               name="condition"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Condition</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Condition" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {Object.keys(Conditions).map((c) => (
-                        <SelectItem key={c} value={c}>
-                          {c}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              values={Object.keys(Conditions)}
             />
-            <FormField
-              control={form.control}
+            <FormSelect
               name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Type</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Type" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {Object.keys(ItemType).map((c) => (
-                        <SelectItem key={c} value={c} className="capitalize">
-                          {c}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              form={form}
+              label="Type"
+              values={Object.keys(ItemType)}
             />
-            <FormField
-              control={form.control}
+            <FormInput
+              form={form}
               name="units"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Shipping</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      {...field}
-                      onChange={(e) =>
-                        form.setValue("shipping", parseInt(e.target.value))
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              onChange={(e) => form.setValue("units", parseInt(e.target.value))}
+              type="number"
+              label="Units"
             />
-            <FormField
-              control={form.control}
-              name="price_charting_url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price Charting URL</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                  <FormDescription>
-                    <Link
-                      href="https://www.pricecharting.com/"
-                      target="_blank"
-                      className="underline"
-                    >
-                      Open Price Charting
-                    </Link>{" "}
-                    and copy the url after <code>pricecharting.com/game/</code>
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
+            <FormInput
+              form={form}
+              name="priceChartingUrl"
+              label="Price Charting URL "
+            >
+              <FormDescription>
+                <Link
+                  href="https://www.pricecharting.com/"
+                  target="_blank"
+                  className="underline"
+                >
+                  Open Price Charting
+                </Link>{" "}
+                and copy the url after <code>pricecharting.com/game/</code>
+              </FormDescription>
+            </FormInput>
+
             <DialogFooter>
               <Button type="submit">Add</Button>
             </DialogFooter>

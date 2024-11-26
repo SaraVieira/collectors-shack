@@ -15,15 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
 import { Conditions, Consoles, Region } from "@prisma/client";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 import {
   Popover,
   PopoverContent,
@@ -40,6 +32,10 @@ import { omit } from "lodash-es";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { FormInput } from "~/components/forms/Input";
+import { ImageUpload } from "~/components/forms/imageInput";
+import { FormSelect } from "~/components/forms/Select";
+import { FormDate } from "~/components/forms/date";
 export default function Add() {
   const session = useSession();
   const router = useRouter();
@@ -81,239 +77,83 @@ export default function Add() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
+        <FormInput
+          label="Game Name"
+          form={form}
+          placeholder="Sonic"
           name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Game Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Sonic" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
         />
-        <FormField
-          control={form.control}
+        <FormSelect
+          form={form}
+          label="Console"
           name="console"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Console</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Console" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {Object.keys(Consoles).map((c) => (
-                    <SelectItem value={c} key={c}>
-                      {platformsMap[c as keyof typeof platformsMap] || c}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
+          values={Object.keys(Consoles)}
+          transformValue={(c) =>
+            platformsMap[c as keyof typeof platformsMap] || c
+          }
         />
-        <FormField
-          control={form.control}
+        <FormSelect
+          form={form}
+          label="Region"
           name="region"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Region</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Region" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {Object.keys(Region).map((c) => (
-                    <SelectItem key={c} value={c}>
-                      {c}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
+          values={Object.keys(Region)}
         />
-        <FormField
-          control={form.control}
-          name="idgbId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>IGDB ID</FormLabel>
-              <FormControl>
-                <Input type="number" {...field} />
-              </FormControl>
-              <FormMessage />
-              <FormDescription>
-                <Link
-                  href="https://www.igdb.com"
-                  target="_blank"
-                  className="underline"
-                >
-                  Open IGDB
-                </Link>
-              </FormDescription>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
+        <FormInput type="number" form={form} name="idgbId" label="IGDB ID ">
+          <FormDescription>
+            <Link
+              href="https://www.igdb.com"
+              target="_blank"
+              className="underline"
+            >
+              Open IGDB
+            </Link>
+          </FormDescription>
+        </FormInput>
+
+        <FormInput
+          form={form}
           name="units"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Units</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  {...field}
-                  onChange={(e) =>
-                    form.setValue("units", parseInt(e.target.value))
-                  }
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          onChange={(e) => form.setValue("units", parseInt(e.target.value))}
+          type="number"
+          label="Units"
         />
-        <FormField
-          control={form.control}
+
+        <FormInput
+          form={form}
           name="priceChartingUrl"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Price Charting URL</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-              <FormDescription>
-                <Link
-                  href="https://www.pricecharting.com/"
-                  target="_blank"
-                  className="underline"
-                >
-                  Open Price Charting
-                </Link>{" "}
-                and copy the url after <code>pricecharting.com/game/</code>
-              </FormDescription>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
+          label="Price Charting URL "
+        >
+          <FormDescription>
+            <Link
+              href="https://www.pricecharting.com/"
+              target="_blank"
+              className="underline"
+            >
+              Open Price Charting
+            </Link>{" "}
+            and copy the url after <code>pricecharting.com/game/</code>
+          </FormDescription>
+        </FormInput>
+
+        <FormInput
+          type="number"
+          form={form}
           name="purchasePrice"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Purchase Price</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  {...field}
-                  onChange={(e) =>
-                    form.setValue("purchasePrice", parseFloat(e.target.value))
-                  }
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Purchase Price"
+          onChange={(e) =>
+            form.setValue("purchasePrice", parseFloat(e.target.value))
+          }
         />
-        <FormField
-          control={form.control}
-          name="purchaseDate"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Purchase Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground",
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
+        <FormDate form={form} name="purchaseDate" label="Purchase Date" />
+
+        <FormSelect
+          form={form}
+          label="Condition"
           name="condition"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Condition</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Condition" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {Object.keys(Conditions).map((c) => (
-                    <SelectItem key={c} value={c}>
-                      {c}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
+          values={Object.keys(Conditions)}
         />
-        <FormField
-          control={form.control}
-          name="images"
-          render={({ field: { value, onChange, ...field } }) => {
-            return (
-              <FormItem>
-                <FormLabel>Photos</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    value={value?.fileName}
-                    onChange={(event) => {
-                      onChange(event.target.files?.[0]);
-                    }}
-                    type="file"
-                    id="images"
-                    accept="image/png, image/jpeg"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
+
+        <ImageUpload name="images" form={form} />
         <FormField
           control={form.control}
           name="comments"
