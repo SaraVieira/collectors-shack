@@ -32,8 +32,8 @@ export default async function GameInfoPage({
     <HydrateClient>
       <div className="min-h-screen">
         <div className="container mx-auto px-4 py-8">
-          <div className="mb-6 flex items-start justify-between">
-            <h1 className="text-4xl font-bold">{game.name}</h1>
+          <div className="m-auto mb-6 flex max-w-2xl items-start justify-between">
+            <h1 className="text-center text-4xl font-bold">{game.name}</h1>
             <div className="flex items-center gap-4">
               <Link href={`/games/${id}/edit`}>
                 <Button variant="secondary" size="icon">
@@ -45,17 +45,17 @@ export default async function GameInfoPage({
             </div>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="m-auto flex max-w-2xl items-start gap-8">
             <div>
               <img
                 src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.info?.cover}.jpg`}
                 alt="Game Cover"
                 width={264}
                 height={352}
-                className="w-full rounded-lg object-cover"
+                className="rounded-lg object-cover"
               />
             </div>
-            <div>
+            <div className="col-span-1">
               <h2 className="mb-2 text-2xl font-semibold">Details</h2>
               <ul className="space-y-2">
                 <li className="flex items-center justify-between">
@@ -114,7 +114,7 @@ export default async function GameInfoPage({
               </ul>
             </div>
           </div>
-          <div className="my-6">
+          <div className="m-auto my-6 max-w-2xl">
             <h2 className="mb-2 text-2xl font-semibold">Description</h2>
             <p className="text-gray-300">{game.info?.summary}</p>
           </div>

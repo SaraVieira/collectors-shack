@@ -69,84 +69,93 @@ export const AddForm = ({ session }: { session: Session }) => {
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormInput
-          label="Game Name"
-          form={form}
-          placeholder="Sonic"
-          name="name"
-        />
-        <FormSelect
-          form={form}
-          label="Console"
-          name="console"
-          values={Object.keys(Consoles)}
-          transformValue={(c) =>
-            platformsMap[c as keyof typeof platformsMap] || c
-          }
-        />
-        <FormSelect
-          form={form}
-          label="Region"
-          name="region"
-          values={Object.keys(Region)}
-        />
-        <FormInput type="number" form={form} name="idgbId" label="IGDB ID ">
-          <FormDescription>
-            <Link
-              href="https://www.igdb.com"
-              target="_blank"
-              className="underline"
-            >
-              Open IGDB
-            </Link>
-          </FormDescription>
-        </FormInput>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-8">
+        <div className="grid-cols-2 gap-8 lg:grid">
+          <FormInput
+            label="Game Name"
+            form={form}
+            placeholder="Sonic"
+            name="name"
+          />
+          <FormSelect
+            form={form}
+            label="Console"
+            name="console"
+            values={Object.keys(Consoles)}
+            transformValue={(c) =>
+              platformsMap[c as keyof typeof platformsMap] || c
+            }
+          />
+        </div>
+        <div className="grid-cols-2 gap-8 lg:grid">
+          <FormInput type="number" form={form} name="idgbId" label="IGDB ID ">
+            <FormDescription>
+              <Link
+                href="https://www.igdb.com"
+                target="_blank"
+                className="underline"
+              >
+                Open IGDB
+              </Link>
+            </FormDescription>
+          </FormInput>
 
-        <FormInput
-          form={form}
-          name="units"
-          onChange={(e) => form.setValue("units", parseInt(e.target.value))}
-          type="number"
-          label="Units"
-        />
+          <FormInput
+            form={form}
+            name="priceChartingUrl"
+            label="Price Charting URL "
+          >
+            <FormDescription>
+              <Link
+                href="https://www.pricecharting.com/"
+                target="_blank"
+                className="underline"
+              >
+                Open Price Charting
+              </Link>{" "}
+              and copy the url after <code>pricecharting.com/game/</code>
+            </FormDescription>
+          </FormInput>
+        </div>
+        <div className="grid-cols-2 gap-8 lg:grid">
+          <FormSelect
+            form={form}
+            label="Region"
+            name="region"
+            values={Object.keys(Region)}
+          />
 
-        <FormInput
-          form={form}
-          name="priceChartingUrl"
-          label="Price Charting URL "
-        >
-          <FormDescription>
-            <Link
-              href="https://www.pricecharting.com/"
-              target="_blank"
-              className="underline"
-            >
-              Open Price Charting
-            </Link>{" "}
-            and copy the url after <code>pricecharting.com/game/</code>
-          </FormDescription>
-        </FormInput>
+          <FormInput
+            form={form}
+            name="units"
+            onChange={(e) => form.setValue("units", parseInt(e.target.value))}
+            type="number"
+            label="Units"
+          />
+        </div>
 
-        <FormInput
-          type="number"
-          form={form}
-          name="purchasePrice"
-          label="Purchase Price"
-          onChange={(e) =>
-            form.setValue("purchasePrice", parseFloat(e.target.value))
-          }
-        />
-        <FormDate form={form} name="purchaseDate" label="Purchase Date" />
+        <div className="grid-cols-2 items-center gap-8 lg:grid">
+          <FormInput
+            type="number"
+            form={form}
+            name="purchasePrice"
+            label="Purchase Price"
+            onChange={(e) =>
+              form.setValue("purchasePrice", parseFloat(e.target.value))
+            }
+          />
+          <FormDate form={form} name="purchaseDate" label="Purchase Date" />
+        </div>
+        <div className="grid-cols-2 items-center gap-8 lg:grid">
+          <FormSelect
+            form={form}
+            label="Condition"
+            name="condition"
+            values={Object.keys(Conditions)}
+          />
 
-        <FormSelect
-          form={form}
-          label="Condition"
-          name="condition"
-          values={Object.keys(Conditions)}
-        />
-
-        <ImageUpload name="images" form={form} />
+          <ImageUpload name="images" form={form} />
+        </div>
         <FormField
           control={form.control}
           name="comments"

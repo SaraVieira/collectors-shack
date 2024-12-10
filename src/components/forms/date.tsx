@@ -28,14 +28,14 @@ export const FormDate = ({
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>{label}</FormLabel>
+          <FormLabel className="mb-2">{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[240px] pl-3 text-left font-normal",
+                    "w-full pl-3 text-left font-normal",
                     !field.value && "text-muted-foreground",
                   )}
                 >
