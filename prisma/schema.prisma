@@ -358,6 +358,8 @@ model Game {
     comments           String?
     User               User?      @relation(fields: [userId], references: [id])
     userId             String?
+    createdAt          DateTime   @default(now())
+    updatedAt          DateTime   @default(now()) @updatedAt
 
     @@index([name])
 }
@@ -379,6 +381,7 @@ model Purchases {
     condition            Conditions
     type                 ItemType
     createdAt            DateTime   @default(now())
+    updatedAt            DateTime   @default(now()) @updatedAt
     price_charting_price Json?
 }
 

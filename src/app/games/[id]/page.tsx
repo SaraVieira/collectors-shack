@@ -26,6 +26,8 @@ export default async function GameInfoPage({
     redirect("/");
   }
 
+  console.log(game);
+
   return (
     <HydrateClient>
       <div className="min-h-screen">

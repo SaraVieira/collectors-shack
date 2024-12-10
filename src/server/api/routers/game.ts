@@ -65,101 +65,101 @@ export const gamesRouter = createTRPCRouter({
                   "storyline",
                   "id",
                 ]),
-                ...(info.age_ratings && {
+                ...(info?.age_ratings && {
                   age_ratings: {
                     createMany: {
                       skipDuplicates: true,
-                      data: info.age_ratings,
+                      data: info?.age_ratings,
                     },
                   },
                 }),
-                ...(info.websites && {
+                ...(info?.websites && {
                   websites: {
                     createMany: {
                       skipDuplicates: true,
-                      data: info.websites,
+                      data: info?.websites,
                     },
                   },
                 }),
-                ...(info.videos && {
+                ...(info?.videos && {
                   videos: {
                     createMany: {
                       skipDuplicates: true,
-                      data: info.videos,
+                      data: info?.videos,
                     },
                   },
                 }),
-                ...(info.themes && {
+                ...(info?.themes && {
                   themes: {
                     createMany: {
                       skipDuplicates: true,
-                      data: info.themes,
+                      data: info?.themes,
                     },
                   },
                 }),
-                ...(info.screenshots && {
+                ...(info?.screenshots && {
                   screenshots: {
                     createMany: {
                       skipDuplicates: true,
-                      data: info.screenshots,
+                      data: info?.screenshots,
                     },
                   },
                 }),
-                ...(info.game_modes && {
+                ...(info?.game_modes && {
                   game_modes: {
                     createMany: {
                       skipDuplicates: true,
-                      data: info.game_modes,
+                      data: info?.game_modes,
                     },
                   },
                 }),
-                ...(info.alternative_names && {
+                ...(info?.alternative_names && {
                   alternative_names: {
                     createMany: {
                       skipDuplicates: true,
-                      data: info.alternative_names,
+                      data: info?.alternative_names,
                     },
                   },
                 }),
-                ...(info.franchises && {
+                ...(info?.franchises && {
                   franchises: {
                     createMany: {
                       skipDuplicates: true,
-                      data: info.franchises,
+                      data: info?.franchises,
                     },
                   },
                 }),
-                ...(info.genres && {
+                ...(info?.genres && {
                   genres: {
                     createMany: {
                       skipDuplicates: true,
-                      data: info.genres,
+                      data: info?.genres,
                     },
                   },
                 }),
-                ...(info.involved_companies && {
+                ...(info?.involved_companies && {
                   involved_companies: {
                     createMany: {
                       skipDuplicates: true,
-                      data: info.involved_companies,
+                      data: info?.involved_companies,
                     },
                   },
                 }),
                 platforms: {
                   createMany: {
                     skipDuplicates: true,
-                    data: info.platforms,
+                    data: info?.platforms,
                   },
                 },
                 release_dates: {
                   createMany: {
                     skipDuplicates: true,
-                    data: info.release_dates,
+                    data: info?.release_dates,
                   },
                 },
               },
               where: {
-                id: info.id,
+                id: info?.id,
               },
             },
           },
@@ -182,6 +182,9 @@ export const gamesRouter = createTRPCRouter({
     const games = await ctx.db.game.findMany({
       include: {
         info: true,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
 
