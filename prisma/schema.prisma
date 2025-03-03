@@ -154,11 +154,13 @@ model Console {
 }
 
 model GameAgeRatings {
-    id         Int       @id @default(autoincrement())
-    category   Int?
-    rating     Int?
-    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
-    gameInfoId Int?
+    id              Int       @id @default(autoincrement())
+    category        Int?
+    rating          Int?
+    rating_category Int?
+    organization    Int?
+    GameInfo        GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId      Int?
 }
 
 model GameAlternativeNames {
