@@ -235,6 +235,7 @@ model GamePlatforms {
     name             String?
     platform_logo    Int?
     platform_family  Int?
+    platform_type    Int?
     slug             String?
     updated_at       Int?
     url              String?
