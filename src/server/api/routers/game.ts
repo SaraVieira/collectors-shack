@@ -71,7 +71,9 @@ export const gamesRouter = createTRPCRouter({
                     age_ratings: {
                       createMany: {
                         skipDuplicates: true,
-                        data: info?.age_ratings,
+                        data: omit(info?.age_ratings, [
+                          "rating_content_descriptions",
+                        ]),
                       },
                     },
                   }),
