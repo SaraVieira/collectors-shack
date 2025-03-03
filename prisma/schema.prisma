@@ -299,6 +299,7 @@ model GameWebsites {
     game       Int?
     trusted    Boolean
     url        String?
+    type       Int?
     GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
     gameInfoId Int?
 }
