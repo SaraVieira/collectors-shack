@@ -245,21 +245,22 @@ model GamePlatforms {
 }
 
 model GameReleaseDates {
-    id         Int     @id @default(autoincrement())
-    category   Int?
-    created_at BigInt?
-    date       Int?
-    game       Int?
-    human      String?
-    m          Int?
-    platform   Int?
-    region     Int?
-    updated_at Int?
-    y          Int?
-    status     Int?
-
-    GameInfo   GameInfo? @relation(fields: [gameInfoId], references: [id])
-    gameInfoId Int?
+    id             Int       @id @default(autoincrement())
+    category       Int?
+    created_at     BigInt?
+    date           Int?
+    game           Int?
+    human          String?
+    m              Int?
+    platform       Int?
+    region         Int?
+    updated_at     Int?
+    y              Int?
+    status         Int?
+    date_format    Int?
+    release_region Int?
+    GameInfo       GameInfo? @relation(fields: [gameInfoId], references: [id])
+    gameInfoId     Int?
 }
 
 model GameScreenShots {
